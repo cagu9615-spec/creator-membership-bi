@@ -1,0 +1,11 @@
+order_id,buyer_customer_id,email,product_title,purchase_date,amount,currency,transaction_id
+EB_1001,CUST_001,alex.rivera@example.com,The 10x Creator Blueprint Ebook,2026-01-16,49.0,USD,TXN_EB_9001
+EB_1002,CUST_002,sarah.chen@example.com,The 10x Creator Blueprint Ebook,2026-01-22,49.0,USD,TXN_EB_9002
+EB_1003,CUST_004,emma.w@example.com,Creator Monetization Playbook (PDF),2026-02-12,29.0,USD,TXN_EB_9003
+EB_1004,CUST_012,mharris@example.com,The 10x Creator Blueprint Ebook,2026-04-20,49.0,USD,TXN_EB_9004
+EB_1005,CUST_014,pclark@example.com,Creator Monetization Playbook (PDF),2026-05-11,29.0,USD,TXN_EB_9005
+EB_1006,CUST_008,awhite@example.com,The 10x Creator Blueprint Ebook,2026-05-20,49.0,USD,TXN_EB_9006
+EB_1007,CUST_009,rmartinez@example.com,Creator Monetization Playbook (PDF),2026-06-02,29.0,USD,TXN_EB_9007
+EB_1008,CUST_011,djackson@example.com,The 10x Creator Blueprint Ebook,2026-06-15,49.0,USD,TXN_EB_9008
+EB_1009,CUST_017,rachel.g@example.com,The 10x Creator Blueprint Ebook,2026-06-25,49.0,USD,TXN_EB_9009
+EB_1010,CUST_019,smartinez@example.com,Creator Monetization Playbook (PDF),2026-07-05,29.0,USD,TXN_EB_1010

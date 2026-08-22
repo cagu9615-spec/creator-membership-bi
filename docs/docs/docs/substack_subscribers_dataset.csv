@@ -1,0 +1,21 @@
+subscriber_id,full_name,email,subscription_tier,open_rate_pct,click_rate_pct,signup_date,status,plan_details
+SUB_001,Alex Rivera,alex.rivera@example.com,Paid Member,85.4,12.1,2026-01-15,Active,Monthly Plan ($10/mo)
+SUB_002,Sarah Chen,sarah.chen@example.com,Paid Member,92.0,18.5,2026-01-20,Active,Annual Founding Member ($100/yr)
+SUB_003,Michael Brown,mbrown@example.com,Free Subscriber,45.2,3.1,2026-02-01,Active,None
+SUB_004,Emma Wilson,emma.w@example.com,Paid Member,78.9,9.4,2026-02-10,Active,Monthly Plan ($10/mo)
+SUB_005,David Kim,dkim@example.com,Free Subscriber,30.1,1.0,2026-02-14,Active,None
+SUB_006,Jessica Taylor,j.taylor@example.com,Free Subscriber,62.3,5.2,2026-03-01,Active,None
+SUB_007,James Anderson,janderson@example.com,Free Subscriber,15.0,0.0,2026-03-05,Inactive,None
+SUB_008,Amanda White,awhite@example.com,Free Subscriber,50.0,4.0,2026-03-12,Active,None
+SUB_009,Robert Martinez,rmartinez@example.com,Free Subscriber,71.2,8.3,2026-03-20,Active,None
+SUB_010,Lisa Thomas,lisa.t@example.com,Free Subscriber,40.5,2.1,2026-04-02,Active,None
+SUB_011,Daniel Jackson,djackson@example.com,Paid Member,88.1,14.2,2026-04-10,Active,Annual Plan ($80/yr)
+SUB_012,Megan Harris,mharris@example.com,Free Subscriber,64.0,6.5,2026-04-18,Active,None
+SUB_013,Chris Martin,cmartin@example.com,Churned,10.2,0.0,2026-05-01,Cancelled,Monthly Plan (Cancelled)
+SUB_014,Patricia Clark,pclark@example.com,Free Subscriber,55.0,3.8,2026-05-10,Active,None
+SUB_015,Matthew Lewis,mlewis@example.com,Churned,0.0,0.0,2026-05-15,Unsubscribed,None
+SUB_016,John Doe,johndoe@example.com,Free Subscriber,33.4,2.0,2026-06-01,Active,None
+SUB_017,Rachel Green,rachel.g@example.com,Paid Member,95.0,22.1,2026-06-10,Active,Monthly Plan ($10/mo)
+SUB_018,Kevin Vance,kvance@example.com,Free Subscriber,48.0,3.5,2026-06-18,Active,None
+SUB_019,Sophia Martinez,smartinez@example.com,Paid Member,82.5,11.0,2026-07-01,Active,Annual Plan ($80/yr)
+SUB_020,Liam O'Connor,loconnor@example.com,Free Subscriber,28.4,0.5,2026-07-15,Active,None
