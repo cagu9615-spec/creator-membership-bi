@@ -1,0 +1,78 @@
+CREATE OR REPLACE TABLE `creator_marts.mart_ndc_executive_command` AS
+WITH customer_base AS (
+  SELECT
+    dc.customer_id,
+    dc.email,
+    dc.customer_name,
+    dc.first_touch_source AS acquisition_channel,
+    COALESCE(dc.substack_tier, 'Free Reader') AS community_or_newsletter_tier
+  FROM `creator_dw.dim_customers` dc
+),
+transaction_summary AS (
+  SELECT
+    customer_id,
+    COUNT(DISTINCT transaction_key) AS total_orders,
+    SUM(amount) AS lifetime_value_usd,
+    SUM(CASE WHEN source_platform = 'stripe' THEN amount ELSE 0 END) AS stripe_revenue_usd,
+    SUM(CASE WHEN source_platform = 'shopify' THEN amount ELSE 0 END) AS shopify_revenue_usd,
+    SUM(CASE WHEN source_platform = 'ebook' THEN amount ELSE 0 END) AS ebook_revenue_usd,
+    MIN(transaction_timestamp) AS first_paid_at,
+    MAX(transaction_timestamp) AS last_paid_at
+  FROM `creator_dw.fact_transactions`
+  WHERE customer_id IS NOT NULL
+  GROUP BY customer_id
+),
+engagement_summary AS (
+  SELECT
+    customer_id,
+    COUNT(DISTINCT engagement_key) AS total_touchpoints,
+    COUNT(DISTINCT CASE WHEN source_platform = 'calendly' THEN engagement_key END) AS calls_booked,
+    COUNT(DISTINCT CASE WHEN source_platform = 'substack' THEN engagement_key END) AS newsletter_engagements,
+    MIN(event_timestamp) AS first_engaged_at,
+    MAX(event_timestamp) AS last_engaged_at
+  FROM `creator_dw.fact_engagements`
+  WHERE customer_id IS NOT NULL
+  GROUP BY customer_id
+)
+SELECT
+  cb.customer_id,
+  cb.email,
+  cb.customer_name,
+  cb.acquisition_channel,
+  cb.community_or_newsletter_tier,
+  
+  -- Combined Engagement Metrics
+  COALESCE(es.total_touchpoints, 0) AS total_touchpoints,
+  COALESCE(es.calls_booked, 0) AS calls_booked,
+  COALESCE(es.newsletter_engagements, 0) AS newsletter_engagements,
+  
+  -- Combined Financial Metrics
+  COALESCE(ts.total_orders, 0) AS total_paid_orders,
+  COALESCE(ts.lifetime_value_usd, 0.0) AS lifetime_value_usd,
+  COALESCE(ts.stripe_revenue_usd, 0.0) AS stripe_revenue_usd,
+  COALESCE(ts.shopify_revenue_usd, 0.0) AS shopify_revenue_usd,
+  COALESCE(ts.ebook_revenue_usd, 0.0) AS ebook_revenue_usd,
+
+  -- Unified Lifecycle Segmentation
+  CASE
+    WHEN COALESCE(ts.lifetime_value_usd, 0.0) >= 1000 THEN 'High-Value VIP / Whale'
+    WHEN COALESCE(ts.lifetime_value_usd, 0.0) > 0 THEN 'Active Monetized Member'
+    WHEN COALESCE(es.calls_booked, 0) > 0 THEN 'High-Intent Lead (Call Booked)'
+    WHEN COALESCE(es.total_touchpoints, 0) > 0 THEN 'Active Free Audience'
+    ELSE 'Cold Prospect'
+  END AS customer_lifecycle_stage,
+
+  -- Days to Conversion (First Touch to First Dollar)
+  TIMESTAMP_DIFF(ts.first_paid_at, es.first_engaged_at, DAY) AS days_to_convert,
+  
+  -- Active vs Inactive Churn Signal (30-day threshold)
+  CASE
+    WHEN ts.last_paid_at >= TIMESTAMP_SUB(CURRENT_TIMESTAMP(), INTERVAL 30 DAY) THEN 'Active Spender'
+    WHEN ts.last_paid_at IS NOT NULL THEN 'At Risk / Dormant Spender'
+    ELSE 'Non-Purchaser'
+  END AS monetization_status,
+
+  CURRENT_TIMESTAMP() AS mart_refreshed_at
+FROM customer_base cb
+LEFT JOIN transaction_summary ts ON cb.customer_id = ts.customer_id
+LEFT JOIN engagement_summary es ON cb.customer_id = es.customer_id;
