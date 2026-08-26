@@ -1,21 +1,19 @@
--- Staging Substack
-CREATE OR REPLACE TABLE `creator_staging.stg_substack` AS
-SELECT
-  LOWER(TRIM(email)) AS email,
-  subscriber_id,
-  subscription_tier,
-  status,
-  SAFE_CAST(signup_date AS TIMESTAMP) AS signup_date
-FROM `creator_raw.raw_substack`
-WHERE email IS NOT NULL;
+-- Create isolated datasets for each architectural layer
+CREATE SCHEMA IF NOT EXISTS `creator_raw` OPTIONS(location='US');
+CREATE SCHEMA IF NOT EXISTS `creator_staging` OPTIONS(location='US');
+CREATE SCHEMA IF NOT EXISTS `creator_dw` OPTIONS(location='US');
+CREATE SCHEMA IF NOT EXISTS `creator_marts` OPTIONS(location='US');
 
--- Staging Ebook Sales
-CREATE OR REPLACE TABLE `creator_staging.stg_ebook` AS
-SELECT
-  LOWER(TRIM(email)) AS email,
-  order_id,
-  product_title,
-  SAFE_CAST(amount AS NUMERIC) AS amount,
-  SAFE_CAST(purchase_date AS TIMESTAMP) AS purchase_date
-FROM `creator_raw.raw_ebook`
-WHERE email IS NOT NULL;
+
+-- Create the 4 architecture layers in BigQuery
+CREATE SCHEMA IF NOT EXISTS `project-66ca72fe-f4e0-486b-ab0.creator_raw`
+  OPTIONS(location='US');
+
+CREATE SCHEMA IF NOT EXISTS `project-66ca72fe-f4e0-486b-ab0.creator_staging`
+  OPTIONS(location='US');
+
+CREATE SCHEMA IF NOT EXISTS `project-66ca72fe-f4e0-486b-ab0.creator_dw`
+  OPTIONS(location='US');
+
+CREATE SCHEMA IF NOT EXISTS `project-66ca72fe-f4e0-486b-ab0.creator_marts`
+  OPTIONS(location='US');
