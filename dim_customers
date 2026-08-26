@@ -1,0 +1,27 @@
+CREATE OR REPLACE TABLE `creator_dw.dim_customers` AS
+WITH all_emails AS (
+  SELECT LOWER(TRIM(email)) AS clean_email, full_name AS name, 'substack' AS primary_source FROM `creator_staging.stg_substack` WHERE email IS NOT NULL
+  UNION DISTINCT
+  SELECT LOWER(TRIM(email)) AS clean_email, name, 'calendly' AS primary_source FROM `creator_staging.stg_calendly` WHERE email IS NOT NULL
+  UNION DISTINCT
+  SELECT LOWER(TRIM(email)) AS clean_email, NULL AS name, 'ebook' AS primary_source FROM `creator_staging.stg_ebook` WHERE email IS NOT NULL
+),
+consolidated AS (
+  SELECT 
+    clean_email,
+    MAX(name) AS customer_name,
+    MIN(primary_source) AS first_touch_source
+  FROM all_emails
+  GROUP BY clean_email
+)
+SELECT
+  GENERATE_UUID() AS customer_id,
+  c.clean_email AS email,
+  c.customer_name,
+  c.first_touch_source,
+  sub.subscriber_id AS substack_subscriber_id,
+  sub.subscription_tier AS substack_tier,
+  CURRENT_TIMESTAMP() AS updated_at
+FROM consolidated c
+LEFT JOIN `creator_staging.stg_substack` sub 
+  ON c.clean_email = LOWER(TRIM(sub.email));
