@@ -1,0 +1,34 @@
+-- Fix raw_stripe to point strictly to charges/
+CREATE OR REPLACE EXTERNAL TABLE `creator_raw.raw_stripe`
+OPTIONS (
+  format = 'NEWLINE_DELIMITED_JSON',
+  uris = ['gs://creator-membership-vault-9615/stripe/charges/*']
+);
+
+-- Fix raw_shopify to point strictly to orders/
+CREATE OR REPLACE EXTERNAL TABLE `creator_raw.raw_shopify`
+OPTIONS (
+  format = 'NEWLINE_DELIMITED_JSON',
+  uris = ['gs://creator-membership-vault-9615/shopify/orders/*']
+);
+
+-- Fix raw_substack to point strictly to subscribers/
+CREATE OR REPLACE EXTERNAL TABLE `creator_raw.raw_substack`
+OPTIONS (
+  format = 'NEWLINE_DELIMITED_JSON',
+  uris = ['gs://creator-membership-vault-9615/substack/subscribers/*']
+);
+
+-- Fix raw_calendly to point strictly to appointments/
+CREATE OR REPLACE EXTERNAL TABLE `creator_raw.raw_calendly`
+OPTIONS (
+  format = 'NEWLINE_DELIMITED_JSON',
+  uris = ['gs://creator-membership-vault-9615/calendly/appointments/*']
+);
+
+-- Fix raw_ebook to point strictly to sales/
+CREATE OR REPLACE EXTERNAL TABLE `creator_raw.raw_ebook`
+OPTIONS (
+  format = 'NEWLINE_DELIMITED_JSON',
+  uris = ['gs://creator-membership-vault-9615/ebook/sales/*']
+);
