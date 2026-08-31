@@ -1,7 +1,4 @@
 # 🚀 Multi-Platform Cloud Analytics Warehouse (`creator-membership-bi`)
-
-**Built by:** Master Nonai  
-**Consultancy:** Nonai Data Consult (NDC)  
 **Target Verticals:** Founder Communities & Membership Businesses | Creator Commerce Businesses  
 
 ---
@@ -21,7 +18,7 @@ Modern founder-led digital businesses operate across fragmented platforms—usin
 
 ┌────────────────────────────────────────────────────────────────────────┐
 │                          1. INGESTION LAYER                            │
-│           (Google Apps Script / Webhooks / GCS CSV Ingestion)          │
+│           (Google Apps Script / GCS / CSV Ingestion)          │
 │            Stripe | Shopify | Substack | Calendly | Ebook              │
 └───────────────────────────────────┬────────────────────────────────────┘
 │
